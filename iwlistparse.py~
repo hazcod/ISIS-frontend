@@ -5,6 +5,7 @@
 # Parses the output of iwlist scan into a table
 
 import sys
+import subprocess
 
 # You can add or change the functions to parse the properties of each AP (cell)
 # below. They take one argument, the bunch of text describing one cell in iwlist
@@ -105,10 +106,7 @@ def print_table(table):
             justified_line.append(el.ljust(widths[i]+2))
         justified_table.append(justified_line)
     
-    for line in justified_table:
-        for el in line:
-            print el,
-        print
+    return(table)
 
 def print_cells(cells):
     table=[columns]
@@ -119,12 +117,12 @@ def print_cells(cells):
         table.append(cell_properties)
     print_table(table)
 
-def main():
-    """Pretty prints the output of iwlist scan into a table"""
+def getNetworks():
+    #"""Pretty prints the output of iwlist scan into a table"""
     cells=[[]]
     parsed_cells=[]
 
-    for line in sys.stdin:
+    for line in subprocess.Popen(["sudo","iwlist", "wlan0", "scan"], stdout=subprocess.PIPE).stdout:
         cell_line = match(line,"Cell ")
         if cell_line != None:
             cells.append([])
@@ -138,6 +136,6 @@ def main():
 
     sort_cells(parsed_cells)
 
-    print_cells(parsed_cells)
+    return(parsed_cells)
 
-main()
+#main()

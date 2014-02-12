@@ -43,25 +43,25 @@ def get_address(cell):
 # cell. The key will be the name of the column in the table. The value is a
 # function defined above.
 
-rules={"Name":get_name,
-       "Quality":get_quality,
-       "Channel":get_channel,
-       "Encryption":get_encryption,
-       "Address":get_address,
+rules={"name":get_name,
+       "quality":get_quality,
+       "channel":get_channel,
+       "encryption":get_encryption,
+       "address":get_address,
        }
 
 # Here you can choose the way of sorting the table. sortby should be a key of
 # the dictionary rules.
 
 def sort_cells(cells):
-    sortby = "Quality"
+    sortby = "quality"
     reverse = True
     cells.sort(None, lambda el:el[sortby], reverse)
 
 # You can choose which columns to display here, and most importantly in what order. Of
 # course, they must exist as keys in the dict rules.
 
-columns=["Name","Address","Quality","Channel","Encryption"]
+columns=["name","address","quality","channel","encryption"]
 
 
 
