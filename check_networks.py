@@ -6,10 +6,8 @@ import socket
 from iwlistparse import *
 from database import *
 
-#lequery=''
 raw=getNetworks()
 for lijst in raw:
-	#print(lijst)
 	query='insert into ap_info(wifi_network,caption,quality,channel,mac_adress)  values ("';
 	query+=lijst['Name']
 	query+='","'
@@ -22,17 +20,4 @@ for lijst in raw:
 	query+=lijst['Address']
 	query+='"); '
 	lequery+=query
-	#print(query)
 	executequery(query)
-#executequery(lequery)
-# for ssid in list:
-# 	print (ssid)
-# 	query= 'insert into wnets values ("'
-# 	query+=ssid
-# 	query+='","'
-# 	query+=socket.gethostname()
-# 	query+='",'
-# 	query+="now()"
-# 	query+=');'
-# 	print (query)
-# 	executequery(query)	
