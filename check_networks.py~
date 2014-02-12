@@ -8,18 +8,19 @@ from database import *
 
 raw=getNetworks()
 for lijst in raw:
-	query='insert into ap_info(wifi_network,caption,quality,channel,mac_adress, encryption)  values ("';
-	query+=lijst['Name']
+	query='insert into ap_info(wifi_network,caption,quality,channel,mac_adress,encryption, last_updated) values ("';
+	query+=lijst['name']
 	query+='","'
 	query+=socket.gethostname()
 	query+='","'
-	query+=lijst['Quality'][:-2][-1:]
+	query+=lijst['quality'][:-2][-1:]
 	query+='","'
-	query+=lijst['Channel']
+	query+=lijst['channel']
 	query+='","'
-	query+=lijst['Address']
+	query+=lijst['address']
 	query+='","'
-	query+=lijst['Encryption']
+	query+=lijst['encryption']
+	query+='",now()'
 	query+='"); '
 	lequery+=query
 	executequery(query)
