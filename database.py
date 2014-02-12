@@ -13,3 +13,4 @@ def executequery (query):
 
 	cur.execute(query)
 	db.commit()
+	return cur.fetchall()
