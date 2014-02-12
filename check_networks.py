@@ -7,6 +7,10 @@ from iwlistparse import *
 from database import *
 
 raw=getNetworks()
+removeq='delete from ap_info where (caption = "';
+removeq+=socket.gethostname()
+removeq+='");'
+executequery(removeq)
 for lijst in raw:
 	query='insert into ap_info(wifi_network,caption,quality,channel,mac_adress,encryption, last_updated) values ("';
 	query+=lijst['name']
@@ -21,5 +25,4 @@ for lijst in raw:
 	query+='","'
 	query+=lijst['encryption']
 	query+='",now()); '
-	lequery+=query
 	executequery(query)

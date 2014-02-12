@@ -20,7 +20,6 @@ for lijst in raw:
 	query+=lijst['address']
 	query+='","'
 	query+=lijst['encryption']
-	query+='",now()'
-	query+='"); '
+	query+='",now()); '
 	lequery+=query
 	executequery(query)
