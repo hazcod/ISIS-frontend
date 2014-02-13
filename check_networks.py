@@ -1,7 +1,8 @@
-#!/usr/bin/python
+#! /usr/bin/python
 
 import subprocess
 import socket
+
 from database import *
 
 allinfo= subprocess.check_output(["sudo", "iwlist", "wlan0","scan"])
