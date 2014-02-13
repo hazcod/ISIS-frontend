@@ -37,7 +37,7 @@ for lijst in raw:
 		bigquery+=query
 bigquery=bigquery[:-1]
 bigquery+=';'
-#print(bigquery)
+print(bigquery)
 removeq='delete from ap_info where (caption = "';
 removeq+=platform.node()
 removeq+='");'
