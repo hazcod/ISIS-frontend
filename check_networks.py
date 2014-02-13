@@ -1,46 +1,75 @@
 #! /usr/bin/python
 
 import subprocess
-import platform
+import socket
 
-from iwlistparse import *
 from database import *
 
-print('Starting getNetworks')
-raw=getNetworks()
-if (len(raw) < 2):
-	die()
-	print('Output < 10 lines, so dismissed.')
-query=''
-#dupreg = "\{'encryption': '.+', 'quality': '.+', 'name': '%s', 'channel': '.+', 'address': '%s'\}" % (lijst['name'], lijst['address'])
-bigquery='insert into ap_info(wifi_network,caption,quality,channel,mac_adress,encryption, last_updated) values ';	
-print(raw)	
-for lijst in raw:
-	dupreg = "\{'encryption': '.+', 'quality': '.+', 'name': '%s', 'channel': '.+', 'address': '%s'\}" % (lijst['name'], lijst['address'])
-	print(dupreg)
-	regex = re.compile(dupreg)
-	r = regex.search(bigquery)
-	if r==None:
-		query+='("'
-		query+=lijst['name']
-		query+='","'
-		query+=platform.node()
-		query+='","'
-		query+=lijst['quality'][:-2][-1:]
-		query+='","'
-		query+=lijst['channel']
-		query+='","'
-		query+=lijst['address']
-		query+='","'
-		query+=lijst['encryption']
-		query+='",now()),'
-		bigquery+=query
-bigquery=bigquery[:-1]
-bigquery+=';'
-print(bigquery)
-removeq='delete from ap_info where (caption = "';
-removeq+=platform.node()
-removeq+='");'
-executequery(removeq)
-print('Cleared database prior to inserts.')
-executequery(bigquery)
+allinfo= subprocess.check_output(["sudo", "iwlist", "wlan0","scan"])
+
+tempfile= open("/tmp/ssid","wb")
+tempfile.write(allinfo)
+tempfile.close()
+
+networks=[]
+network={}
+tempfile= open ("/tmp/ssid", "r")
+for line in tempfile:
+	if "Address" in line:
+		lineparts= line.split(":", 1)
+		MAC= lineparts[1].rstrip().lstrip()
+		network={"MAC": MAC}
+		networks.append(network)
+	if "Channel:" in line:
+		lineparts=line.split(":")
+		channel= lineparts[1].rstrip()
+		network["channel"]= channel
+	if "Quality" in line:
+		lineparts=line.split("=")
+		lineparts2=lineparts[1].split("/")
+		quality=lineparts2[0]
+		network["quality"]=quality
+	if "Encryption key" in line:
+		lineparts=line.split(":")
+		if lineparts[1].rstrip()=="off":
+			network["enc"]="open"
+	if "ESSID" in line:
+		lineparts=line.split(":")
+		SSID=lineparts[1].rstrip()
+		network["SSID"]= SSID
+	if "WPA" in line:
+		lineparts= line.split("/")
+		encPart=lineparts[1].rstrip();
+	if "Authentication Suites" in line:
+		lineparts=line.split(":")
+		encPart+=lineparts[1].rstrip()
+		network["enc"]= encPart
+	if "enc" not in network:
+		network["enc"]= "WEP"
+
+
+query= "delete from ap_info where caption='"
+query+=socket.gethostname()
+query+="';"
+executequery(query)
+query="insert into ap_info(wifi_network,caption,quality,channel,mac_adress,encryption, last_updated) values "
+for network in networks:
+	query+='('
+	query+=network["SSID"]
+	query+=',"'
+	query+=socket.gethostname()
+	query+='",'
+	query+=network["quality"]
+	query+=','
+	query+=network["channel"]
+	query+=',"'
+	query+=network["MAC"]
+	query+='","'
+	query+=network["enc"]
+	query+='",'
+	query+="now()"
+	query+="),\n"
+query=query[:-2]
+query+=";"
+print (query)
+executequery(query)
