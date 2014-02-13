@@ -6,6 +6,7 @@
 
 import sys
 import subprocess
+import re
 
 # You can add or change the functions to parse the properties of each AP (cell)
 # below. They take one argument, the bunch of text describing one cell in iwlist
@@ -23,17 +24,21 @@ def get_channel(cell):
 
 def get_encryption(cell):
     enc=""
+    regex = re.compile("\040+IE: (IEEE (.+)/){0,1}WPA(\d)* Version (\d)",re.IGNORECASE|re.MULTILINE)
     if matching_line(cell,"Encryption key:") == "off":
         enc="Open"
     else:
+        enc="?"
         for line in cell:
-            matching = match(line,"IE:")
-            if matching!=None:
-                wpa=match(matching,"WPA Version ")
-                if wpa!=None:
-                    enc="WPA v."+wpa
-        if enc=="":
-            enc="WEP"
+            r = regex.search(line)
+            if r!=None:
+		#print(r.groups())
+                eap = r.group(2)
+                wpa = r.group(3)
+                ver = r.group(4)
+                #print('found: ' + eap + wpa + ver)
+        if enc=="?":
+                enc="WEP"
     return enc
 
 def get_address(cell):

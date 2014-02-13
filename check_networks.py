@@ -7,6 +7,9 @@ from iwlistparse import *
 from database import *
 
 raw=getNetworks()
+if (len(raw) < 10):
+	exit
+
 removeq='delete from ap_info where (caption = "';
 removeq+=socket.gethostname()
 removeq+='");'
