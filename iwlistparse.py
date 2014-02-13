@@ -28,17 +28,21 @@ def get_encryption(cell):
     if matching_line(cell,"Encryption key:") == "off":
         enc="Open"
     else:
-        enc="?"
         for line in cell:
-            r = regex.search(line)
-            if r!=None:
-		#print(r.groups())
-                eap = r.group(2)
-                wpa = r.group(3)
-                ver = r.group(4)
-                #print('found: ' + eap + wpa + ver)
+            matching = match(line,"IE:")
+            if matching!=None:		
+            	r = regex.search(line)
+           	if r!=None:
+			#print(r.groups())
+                	eap = r.group(2)
+                	wpa = r.group(3)
+                	ver = r.group(4)
+                	#print('found: ' + eap + wpa + ver)
+			enc = 'WPA' + wpa + ' v.' + ver
+			if eap!=None:
+				enc += ' (' + eap + ')'
         if enc=="?":
-                enc="WEP"
+        	enc="WEP"
     return enc
 
 def get_address(cell):

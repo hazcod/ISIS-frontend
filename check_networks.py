@@ -1,24 +1,23 @@
 #! /usr/bin/python
 
 import subprocess
-import socket
+import platform
 
 from iwlistparse import *
 from database import *
 
+print('Starting getNetworks')
 raw=getNetworks()
-if (len(raw) < 10):
-	exit
-
-removeq='delete from ap_info where (caption = "';
-removeq+=socket.gethostname()
-removeq+='");'
-executequery(removeq)
+if (len(raw) < 2):
+	die()
+	print('Output < 10 lines, so dismissed.')
+query=''
+bigquery='insert into ap_info(wifi_network,caption,quality,channel,mac_adress,encryption, last_updated) values ';
 for lijst in raw:
-	query='insert into ap_info(wifi_network,caption,quality,channel,mac_adress,encryption, last_updated) values ("';
+	query+='("'
 	query+=lijst['name']
 	query+='","'
-	query+=socket.gethostname()
+	query+=platform.node()
 	query+='","'
 	query+=lijst['quality'][:-2][-1:]
 	query+='","'
@@ -27,5 +26,14 @@ for lijst in raw:
 	query+=lijst['address']
 	query+='","'
 	query+=lijst['encryption']
-	query+='",now()); '
-	executequery(query)
+	query+='",now()),'
+	bigquery+=query
+bigquery=bigquery[:-1]
+bigquery+=';'
+#print(bigquery)
+removeq='delete from ap_info where (caption = "';
+removeq+=platform.node()
+removeq+='");'
+executequery(removeq)
+print('Cleared database prior to inserts.')
+executequery(bigquery)
