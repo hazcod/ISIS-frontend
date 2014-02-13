@@ -23,7 +23,7 @@ def get_channel(cell):
     return matching_line(cell,"Channel:")
 
 def get_encryption(cell):
-    enc=""
+    enc="?"
     regex = re.compile("\040+IE: (IEEE (.+)/){0,1}WPA(\d)* Version (\d)",re.IGNORECASE|re.MULTILINE)
     if matching_line(cell,"Encryption key:") == "off":
         enc="Open"
@@ -38,7 +38,7 @@ def get_encryption(cell):
                 	wpa = r.group(3)
                 	ver = r.group(4)
                 	#print('found: ' + eap + wpa + ver)
-			enc = 'WPA' + wpa + ' v.' + ver
+			enc = 'WPA' + wpa + ' v' + ver
 			if eap!=None:
 				enc += ' (' + eap + ')'
         if enc=="?":
@@ -59,20 +59,10 @@ rules={"name":get_name,
        "address":get_address,
        }
 
-# Here you can choose the way of sorting the table. sortby should be a key of
-# the dictionary rules.
-
-def sort_cells(cells):
-    sortby = "quality"
-    reverse = True
-    cells.sort(None, lambda el:el[sortby], reverse)
-
 # You can choose which columns to display here, and most importantly in what order. Of
 # course, they must exist as keys in the dict rules.
 
 columns=["name","address","quality","channel","encryption"]
-
-
 
 
 # Below here goes the boring stuff. You shouldn't have to edit anything below
@@ -139,11 +129,10 @@ def getNetworks():
         cells[-1].append(line.rstrip())
 
     cells=cells[1:]
+    #print(cells)
 
     for cell in cells:
         parsed_cells.append(parse_cell(cell))
-
-    sort_cells(parsed_cells)
 
     return(parsed_cells)
 
