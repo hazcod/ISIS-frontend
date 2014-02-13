@@ -71,5 +71,5 @@ for network in networks:
 	query+="),\n"
 query=query[:-2]
 query+=";"
-print (query)
+
 executequery(query)
