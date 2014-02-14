@@ -2,6 +2,13 @@
 import socket
 import subprocess
 from database import *
+from check_networks import *
+
+def opdrachtvolbracht():
+	query='update assignments SET status = "executed" where assignments_id ="'
+	query+=str(ass_id[0][0])
+	query+='";'
+	executequery(query) 
 
 query='update units set last_seen = now() where caption="'
 query+=socket.gethostname()
@@ -27,9 +34,3 @@ if assignments[0][0] == "gitCheckout":
 elif assignments[0][0]=="scan":
 	scan()
 	opdrachtvolbracht()
-
-def opdrachtvolbracht():
-	query='update assignments SET status = "executed" where assignments_id ="'
-	query+=str(ass_id[0][0])
-	query+='";'
-	executequery(query) 
