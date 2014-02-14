@@ -7,6 +7,8 @@ query='update units set last_seen = now() where caption="'
 query+=socket.gethostname()
 query+='";'
 
+from check_networks import *
+
 executequery(query)
 
 query='select assignments_id from assignments where caption="'
@@ -21,6 +23,12 @@ assignments= executequery(query)
 
 if assignments[0][0] == "gitCheckout":
 	subprocess.Popen("/home/isis/git/checkout_frontendGit",shell=True);
+	opdrachtvolbracht()
+elif assignments[0][0]=="scan":
+	scan()
+	opdrachtvolbracht()
+
+def opdrachtvolbracht():
 	query='update assignments SET status = "executed" where assignments_id ="'
 	query+=str(ass_id[0][0])
 	query+='";'
