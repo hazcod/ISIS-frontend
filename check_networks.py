@@ -30,7 +30,6 @@ def scan():
 			network["channel"]= channel
 		if "Quality" in line:
 			lineparts=line.split("=")
-			print (lineparts[1])
 			lineparts2=lineparts[1].split("/")
 			quality=lineparts2[0]
 			network["quality"]=quality
