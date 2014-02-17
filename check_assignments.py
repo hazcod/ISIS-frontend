@@ -9,6 +9,13 @@ def opdrachtvolbracht():
 	query+=str(ass_id[0][0])
 	query+='";'
 	executequery(query) 
+def opdrachterror(param):
+	query='update assignments SET status = "error", parameter="'
+	query+=param
+	query+='" where assignments_id="'
+	query+=str(ass_id[0][0])
+	query+='";'
+	executequery(query)
 
 query='update units set last_seen = now() where caption="'
 query+=socket.gethostname()
@@ -32,5 +39,8 @@ if assignments[0][0] == "gitCheckout":
 	subprocess.Popen("/home/isis/git/checkout_frontendGit",shell=True);
 	opdrachtvolbracht()
 elif assignments[0][0]=="scan":
-	scan()
-	opdrachtvolbracht()
+	try:
+		scan()
+		opdrachtvolbracht()
+	except subprocess.CalledProcessError:
+		opdrachterror("Geen wifi-stick verbonden.")
