@@ -21,8 +21,6 @@ query='update units set last_seen = now() where caption="'
 query+=socket.gethostname()
 query+='";'
 
-from check_networks import *
-
 executequery(query)
 
 query='select assignments_id from assignments where caption="'
