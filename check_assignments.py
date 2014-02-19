@@ -59,7 +59,7 @@ elif assignments[0][0]=="scan":
 elif assignments[0][0]=="snap":
 	try:
 		opdrachtexecute()
-		take_image()
+		take_picture()
 		opdrachtvolbracht()
 	except:
 		opdrachterror("Geen camera verbonden.")
