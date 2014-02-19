@@ -43,11 +43,15 @@ query+='"and status="new" order by 1 ASC limit 1;'
 assignments= executequery(query)
 
 if assignments[0][0] == "gitCheckout":
-	opdrachtexecute()
-	repo = git.Repo('/home/isis/ISIS-frontend')
-	o = repo.remotes.origin
-	o.pull()
-	opdrachtvolbracht()
+	try:
+		opdrachtexecute()
+		repo = git.Repo('/home/isis/ISIS-frontend')
+		o = repo.remotes.origin
+		o.pull()
+	except AssertionError:
+		opdrachtvolbracht()
+	except:
+		opdrachterror("Merge conflicts")
 
 elif assignments[0][0]=="scan":
 	try:
