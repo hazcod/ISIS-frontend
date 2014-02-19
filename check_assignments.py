@@ -2,6 +2,7 @@
 import socket
 import subprocess
 import git
+import re
 from database import *
 from check_networks import *
 
@@ -61,7 +62,13 @@ elif assignments[0][0]=="scan":
 elif assignments[0][0]=="snap":
 	try:
 		opdrachtexecute()
-		subprocess.Popen("/home/isis/ISIS-frontend/take_image.sh",shell=True);
-		opdrachtvolbracht()
+		result = os.popen('sudo raspistill -o /home/isis/ISIS-frontend/image.jpg').read()
+		if re.match('failed', result) is not None:
+			sleep("5")
+			os.system("scp  /home/isis/ISIS-frontend/image.jpg isis@192.168.255.54:/home/isis/Afbeeldingen/image.jpg")
+			#subprocess.Popen("/home/isis/ISIS-frontend/take_image.sh",shell=True);
+			opdrachtvolbracht()
+		else:
+			opdrachtErorr("Geen camera verbonden.")
 	except:
 		opdrachterror("Geen camera verbonden.")
