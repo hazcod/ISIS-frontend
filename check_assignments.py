@@ -4,6 +4,7 @@ import subprocess
 import git
 from database import *
 from check_networks import *
+from take_image import *
 
 def opdrachtvolbracht():
 	query='update assignments SET status = "executed" where assignments_id ="'
