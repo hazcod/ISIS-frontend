@@ -1,5 +1,4 @@
 #!/usr/bin/python
-#mooiscript
 import socket
 import subprocess
 import git
