@@ -4,7 +4,6 @@ import subprocess
 import socket
 import re
 import os
-from take_image import *
 
 def take_picture():
 	result = subprocess.popen(['sudo raspistill', '-o' ,'/home/isis/ISIS-frontend/image.jpg']).read()
