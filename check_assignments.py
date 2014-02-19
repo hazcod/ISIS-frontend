@@ -43,10 +43,14 @@ assignments= executequery(query)
 
 if assignments[0][0] == "gitCheckout":
 	opdrachtexecute()
-	repo = git.Repo('/home/isis/ISIS-frontend')
-	o = repo.remotes.origin
-	o.pull()
-	opdrachtvolbracht()
+	try:
+		repo = git.Repo('/home/isis/ISIS-frontend')
+		o = repo.remotes.origin
+		o.pull()
+		opdrachtvolbracht()
+	except:
+		opdrachterror("Git pull error")
+
 elif assignments[0][0]=="scan":
 	try:
 		opdrachtexecute()
@@ -55,6 +59,9 @@ elif assignments[0][0]=="scan":
 	except subprocess.CalledProcessError:
 		opdrachterror("Geen wifi-stick verbonden.")
 elif assignments[0][0]=="snap":
-	opdrachtexecute()
-	subprocess.Popen("/home/isis/ISIS-frontend/take_image.sh",shell=True);
-	opdrachtvolbracht()
+	try:
+		opdrachtexecute()
+		subprocess.Popen("/home/isis/ISIS-frontend/take_image.sh",shell=True);
+		opdrachtvolbracht()
+	except:
+		opdrachterror("Geen camera verbonden.")
