@@ -9,11 +9,18 @@ def opdrachtvolbracht():
 	query='update assignments SET status = "executed" where assignments_id ="'
 	query+=str(ass_id[0][0])
 	query+='";'
-	executequery(query) 
+	executequery(query)
+ 
 def opdrachterror(param):
 	query='update assignments SET status = "error", parameter="'
 	query+=param
 	query+='" where assignments_id="'
+	query+=str(ass_id[0][0])
+	query+='";'
+	executequery(query)
+
+def opdrachtexecute():
+	query='update assignments SET status = "busy" where assignments_id="'
 	query+=str(ass_id[0][0])
 	query+='";'
 	executequery(query)
@@ -35,13 +42,19 @@ query+='"and status="new" order by 1 ASC limit 1;'
 assignments= executequery(query)
 
 if assignments[0][0] == "gitCheckout":
+	opdrachtexecute()
 	repo = git.Repo('/home/isis/ISIS-frontend')
 	o = repo.remotes.origin
 	o.pull()
 	opdrachtvolbracht()
 elif assignments[0][0]=="scan":
 	try:
+		opdrachtexecute()
 		scan()
 		opdrachtvolbracht()
 	except subprocess.CalledProcessError:
 		opdrachterror("Geen wifi-stick verbonden.")
+elif assignments[0][0]=="snap":
+	opdrachtexecute()
+	subprocess.Popen("/home/isis/ISIS-frontend/take_image.sh",shell=True);
+	opdrachtvolbracht()
