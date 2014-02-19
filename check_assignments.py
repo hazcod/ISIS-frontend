@@ -43,13 +43,10 @@ assignments= executequery(query)
 
 if assignments[0][0] == "gitCheckout":
 	opdrachtexecute()
-	try:
-		repo = git.Repo('/home/isis/ISIS-frontend')
-		o = repo.remotes.origin
-		o.pull()
-		opdrachtvolbracht()
-	except:
-		opdrachterror("Git pull error")
+	repo = git.Repo('/home/isis/ISIS-frontend')
+	o = repo.remotes.origin
+	o.pull()
+	opdrachtvolbracht()
 
 elif assignments[0][0]=="scan":
 	try:
