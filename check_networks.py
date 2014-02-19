@@ -2,8 +2,11 @@
 
 import subprocess
 import socket
+import urllib2
 
 from database import *
+
+manufac_url =  "http://api.macvendors.com/"
 
 def main():
 	scan()
@@ -24,6 +27,7 @@ def scan():
 			MAC= lineparts[1].rstrip().lstrip()
 			network={"MAC": MAC}
 			networks.append(network)
+			network['manufac'] = urllib2.urlopen(manufac_url + network['MAC']).read()
 		if "Channel:" in line:
 			lineparts=line.split(":")
 			channel= lineparts[1].rstrip()
@@ -56,7 +60,7 @@ def scan():
 	query+=socket.gethostname()
 	query+="';"
 	executequery(query)
-	query="insert into ap_info(wifi_network,caption,quality,channel,mac_adress,encryption, last_updated) values "
+	query="insert into ap_info(wifi_network,caption,quality,channel,mac_adress,encryption,manufac,last_updated) values "
 	for network in networks:
 		query+='('
 		query+=network["SSID"]
@@ -70,12 +74,14 @@ def scan():
 		query+=network["MAC"]
 		query+='","'
 		query+=network["enc"]
+		query+='","'
+		query+=network['manufac']
 		query+='",'
 		query+="now()"
 		query+="),\n"
 	query=query[:-2]
 	query+=";"
-
+	#print(query)
 	executequery(query)
 
 if __name__ == "__main__":
