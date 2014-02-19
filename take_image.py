@@ -3,6 +3,7 @@
 import subprocess
 import socket
 import re
+import os
 from take_image import *
 
 def take_picture():
