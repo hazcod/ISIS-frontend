@@ -7,6 +7,7 @@ import signal
 from database import *
 import socket
 import urllib2
+import shutil
 
 ifconfig = subprocess.check_output(["ifconfig"])
 
@@ -29,8 +30,8 @@ else:
 	os.system("sudo airmon-ng start wlan0")
 	interface="mon0"
 
-
-command="sudo airodump-ng -w dump/dump "
+os.makedirs ("/home/isis/dump")
+command="sudo airodump-ng -w /home/isis/dump/dump "
 command+=interface
 print command
 #sub= subprocess.Popen(command,stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
@@ -61,15 +62,11 @@ for line in lines:
 		process= True
 
 
-print clients
 query= 'select location from units where caption="'
 query+=socket.gethostname()
 query+='";'
-print (query)
 result=executequery (query)
 
-
-##nog niet getest
 location=result[0][0]
 manufac_url = "http://api.macvendors.com/"
 
@@ -90,3 +87,5 @@ query=query[:-2]
 query+=";"
 print query
 executequery(query)
+
+shutil.rmtree("/home/isis/dump")
