@@ -14,8 +14,10 @@ from monitor_management import *
 def scan():
 	interface=start_monitor("wlan0")
 
-	os.makedirs ("/home/isis/dump")
-	command="sudo airodump-ng -w /home/isis/dump/dump "
+	#os.makedirs ("/home/isis/dump")
+	os.makedirs ("/home/joost/Bureaublad/dump")
+	#command="sudo airodump-ng -w /home/isis/dump/dump "
+	command="sudo airodump-ng -w /home/joost/Bureaublad/dump/dump "
 	command+=interface
 	print command
 	sub= subprocess.Popen(command,stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
@@ -24,7 +26,8 @@ def scan():
 	stop_monitor(interface)
 
 def find_clients():
-	lines= open ("dump/dump-01.csv")
+	#lines= open ("dump/dump-01.csv")
+	lines= open ("/home/joost/Bureaublad/dump/dump-01.csv")
 	clients=[]
 	process= False
 
@@ -78,7 +81,8 @@ def post_clients(clients):
 	executequery(query)
 
 def cleanup():
-	shutil.rmtree("/home/isis/dump")
+	#shutil.rmtree("/home/isis/dump")
+	shutil.rmtree("/home/joost/Bureaublad/dump")
 
 if __name__ == '__main__':
 	scan()
