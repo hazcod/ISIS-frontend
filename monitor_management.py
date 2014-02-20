@@ -8,13 +8,13 @@ def start_monitor (interface, channel=0):
 	command= "sudo ifconfig "
 	command+=interface
 	command+=" down"
+	os.system (command)
 	print (command)
-	os.system(command)
 	command= ["sudo", "airmon-ng", "start", interface]
 	if channel!=0:
-		command.append (channel)
-	
-	output= subprocess.check_output(command).decode()
+		command.append (str (channel))
+
+	output= subprocess.check_output(command)
 	file=open ("bla", "wb")
 	file.write(output)
 	file.close
