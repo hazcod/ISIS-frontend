@@ -48,6 +48,7 @@ if assignments[0][0] == "gitCheckout":
 		repo = git.Repo('/home/isis/ISIS-frontend')
 		o = repo.remotes.origin
 		o.pull()
+		opdrachtvolbracht()
 	except AssertionError:
 		opdrachtvolbracht()
 	except:
