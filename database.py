@@ -2,7 +2,7 @@
 import MySQLdb
 
 def executequery (query):
-	db = MySQLdb.connect(host="192.168.255.54", # your host, usually localhost
+	db = MySQLdb.connect(host="193.191.187.44", # your host, usually localhost
 		user="c7185zrc_isisU", # your username
 		passwd="1wofRFQh", # your password
 		db="c7185zrc_isis") # name of the data base
