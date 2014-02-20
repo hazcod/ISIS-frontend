@@ -87,8 +87,10 @@ def scan():
 		query+="),\n"
 	query=query[:-2]
 	query+=";"
-	#print(query)
 	executequery(query)
+
+	if Error404:
+		raise Exception ("couldn't resolve manufacturer")
 
 if __name__ == "__main__":
     main()

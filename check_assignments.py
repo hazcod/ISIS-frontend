@@ -60,6 +60,8 @@ elif assignments[0][0]=="scan":
 		opdrachtvolbracht()
 	except subprocess.CalledProcessError:
 		opdrachterror("Geen wifi-stick verbonden.")
+	except Exception, e:
+		opdrachterror(e)
 elif assignments[0][0]=="snap":
 	try:
 		opdrachtexecute()
