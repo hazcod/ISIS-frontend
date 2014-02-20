@@ -47,6 +47,7 @@ def stop_monitor(interface):
 		print ("monitor interfaces left")
 	else:
 		os.system("sudo service ifplugd start")
+		os.system("sudo ifconfig wlan0 down")
 
 if __name__ == '__main__':
 	print (start_monitor("wlan0"))
