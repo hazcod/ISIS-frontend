@@ -49,4 +49,4 @@ def stop_monitor(interface):
 		os.system("sudo service ifplugd start")
 
 if __name__ == '__main__':
-	print (stop_monitor("mon0"))
+	print (start_monitor("wlan0"))
