@@ -34,9 +34,9 @@ os.makedirs ("/home/isis/dump")
 command="sudo airodump-ng -w /home/isis/dump/dump "
 command+=interface
 print command
-#sub= subprocess.Popen(command,stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
-#time.sleep (60)
-#os.killpg(sub.pid, signal.SIGKILL)
+sub= subprocess.Popen(command,stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
+time.sleep (60)
+os.killpg(sub.pid, signal.SIGKILL)
 
 lines= open ("dump/dump-01.csv")
 
