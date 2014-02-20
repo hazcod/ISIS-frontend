@@ -28,6 +28,25 @@ def start_monitor (interface, channel=0):
 	os.remove("bla")
 	return output
 
+def stop_monitor(interface):
+	command= ["sudo", "airmon-ng", "stop", interface]
+	output= subprocess.check_output(command).decode()
+	file=open ("bla", "wb")
+	file.write(output)
+	file.close
+
+	monitor_interfaces_left= False;
+	file=open ("bla", "r")
+	for line in file:
+		if ("mon" in line and not "removed" in line and not monitor_interfaces_left):
+			monitor_interfaces_left= True;
+	file.close() 
+	os.remove("bla")
+
+	if monitor_interfaces_left:
+		print ("monitor interfaces left")
+	else:
+		os.system("sudo service ifplugd start")
 
 if __name__ == '__main__':
-	print (start_monitor("wlan0"))
+	print (stop_monitor("mon0"))
