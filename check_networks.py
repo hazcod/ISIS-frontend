@@ -32,6 +32,7 @@ def scan():
 				network['manufac'] = urllib2.urlopen(manufac_url + network['MAC']).read()
 			except:
 				Error404=True
+				network['manufac']=""
 
 		if "Channel:" in line:
 			lineparts=line.split(":")
@@ -51,7 +52,6 @@ def scan():
 			SSID=lineparts[1].rstrip()
 			network["SSID"]= SSID
 		if "WPA" in line:
-			print (line)
 			lineparts= line.split("/")
 			encPart=lineparts[-1].rstrip();
 		if "Authentication Suites" in line:
