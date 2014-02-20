@@ -21,13 +21,18 @@ def scan():
 	networks=[]
 	network={}
 	tempfile= open ("/tmp/ssid", "r")
+	Error404=False
 	for line in tempfile:
 		if "Address" in line:
 			lineparts= line.split(":", 1)
 			MAC= lineparts[1].rstrip().lstrip()
 			network={"MAC": MAC}
 			networks.append(network)
-			network['manufac'] = urllib2.urlopen(manufac_url + network['MAC']).read()
+			try:
+				network['manufac'] = urllib2.urlopen(manufac_url + network['MAC']).read()
+			except:
+				Error404=True
+
 		if "Channel:" in line:
 			lineparts=line.split(":")
 			channel= lineparts[1].rstrip()
@@ -46,8 +51,9 @@ def scan():
 			SSID=lineparts[1].rstrip()
 			network["SSID"]= SSID
 		if "WPA" in line:
+			print (line)
 			lineparts= line.split("/")
-			encPart=lineparts[1].rstrip();
+			encPart=lineparts[-1].rstrip();
 		if "Authentication Suites" in line:
 			lineparts=line.split(":")
 			encPart+=lineparts[1].rstrip()
