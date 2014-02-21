@@ -24,7 +24,7 @@ def scan():
 	stop_monitor(interface)
 
 def find_clients():
-	lines= open ("home/isis/dump/dump-01.csv")
+	lines= open ("/home/isis/dump/dump-01.csv")
 	clients=[]
 	process= False
 
@@ -79,7 +79,6 @@ def post_clients(clients):
 
 def cleanup():
 	shutil.rmtree("/home/isis/dump")
-	stop_monitor(interface)
 
 if __name__ == '__main__':
 	scan()
