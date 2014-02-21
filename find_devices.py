@@ -69,7 +69,7 @@ def post_clients(clients):
 		query+="',now(),'"
 		query+=urllib2.urlopen(manufac_url + client['MAC']).read()
 		query+="','"
-		query+=client["associated_ap"]
+		query+=client["associated_ap"][1:]
 		query+="'),\n"
 
 	query=query[:-2]
