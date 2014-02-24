@@ -3,6 +3,7 @@
 import crack_wep
 import socket
 from database import *
+import os
 
 def crack_network(ESSID):
 	query="select encryption from ap_info where caption= '"
