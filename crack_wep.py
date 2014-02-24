@@ -88,6 +88,7 @@ def automated_crack(ESSID, BSSID, channel):
 	print ("monitor interface started")
 	test_injection(interface, BSSID, ESSID)
 	process_list= [start_airodump(interface, channel, BSSID)]
+	time.sleep(10)
 	MAC= randomMAC()
 	fake_authentication(interface, ESSID, BSSID, MAC)
 	process_list.append(start_aireplay(interface, BSSID, MAC))
