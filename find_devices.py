@@ -35,7 +35,7 @@ def find_clients():
 		if process:
 			lineparts= line.split(",")
 			client={}
-			client["MAC"]=lstrip(lineparts[0])
+			client["MAC"]=lineparts[0].lstrip();
 			if lineparts[5] == " (not associated) ":
 				client["associated_ap"]=''
 			else:
