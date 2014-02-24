@@ -94,6 +94,7 @@ def automated_crack(ESSID, BSSID, channel):
 	process_list.append(start_aireplay(interface, BSSID, MAC))
 	deauth (interface, BSSID)
 	proc_crack=crack(BSSID)
+	proc_crack.wait()
 	killprocesses(process_list)
 	monitor_management.stop_monitor(interface)
 
