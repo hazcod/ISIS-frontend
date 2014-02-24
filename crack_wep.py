@@ -85,7 +85,6 @@ def crack(BSSID):
 	return proc_aircrack
 
 def cleanup():
-	monitor_management.stop_monitor(interface)
 	shutil.rmtree("/home/isis/output")
 
 
@@ -102,4 +101,5 @@ def automated_crack(ESSID, BSSID, channel):
 	proc_crack=crack(BSSID)
 	proc_crack.wait()
 	killprocesses(process_list)
+	monitor_management.stop_monitor(interface)
 	cleanup()
