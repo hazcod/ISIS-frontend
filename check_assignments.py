@@ -70,3 +70,10 @@ elif assignments[0][0]=="snap":
 		opdrachtvolbracht()
 	except:
 		opdrachterror("Geen camera verbonden.")
+elif assignments[0][0]=="death":
+	try:
+		opdrachtexecute()
+		kick_from_ap()
+		opdrachtvolbracht()
+	except:
+		opdrachterror("Kicken mislukt")
