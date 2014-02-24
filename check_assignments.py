@@ -93,7 +93,7 @@ elif assignments[0][0]=="deauth":
 	opdrachtvolbracht()
 elif assignments[0][0]=="crackWifiUnit":
 	try:
-		ESSID=getparameter()
+		ESSID=getparameter()[0][0]
 		opdrachtexecute()
 		crack_network(ESSID)
 		opdrachtvolbracht()
