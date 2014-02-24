@@ -81,7 +81,6 @@ def crack(BSSID):
 	command.append ("key")
 	time.sleep(10)
 	command.append("/home/isis/output/output-01.cap")
-	file= open ("home/isis/key","w")
 	proc_aircrack=subprocess.Popen(command)
 	return proc_aircrack
 
