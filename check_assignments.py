@@ -91,7 +91,7 @@ elif assignments[0][0]=="deauth":
 	print channel
 	kick_ap(ap,channel,target)
 	opdrachtvolbracht()
-elif assignments[0][0]==" crackWifiUnit"
+elif assignments[0][0]=="crackWifiUnit":
 	try:
 		ESSID=getparameter()
 		opdrachtexecute()
