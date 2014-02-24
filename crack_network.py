@@ -25,7 +25,12 @@ def crack_network(ESSID):
 		crack_wep.automated_crack(ESSID, BSSID, channel)
 	file= open ("/home/isis/key")
 	key= file.read()
-	print (key)
+	query= "update ap_info set wifi_key = '"
+	query+=key
+	query+="' where wifi_network = '"
+	query+=ESSID
+	query+="';"
+	executequery(query)
 
 if __name__ == '__main__':
 	crack_network ("airmon-ng")
