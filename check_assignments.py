@@ -5,6 +5,7 @@ import git
 from database import *
 from check_networks import *
 from take_image import *
+from kick_from_ap import *
 
 def opdrachtvolbracht():
 	query='update assignments SET status = "executed" where assignments_id ="'
@@ -25,6 +26,13 @@ def opdrachtexecute():
 	query+=str(ass_id[0][0])
 	query+='";'
 	executequery(query)
+
+def getparameter():
+	query='select parameter from assignments where caption="'
+	query+=socket.gethostname()
+	query+='" and status="new" order by 1 ASC limit 1;'
+	kickpar= executequery(query)
+	return kickpar
 
 query='update units set last_seen = now() where caption="'
 query+=socket.gethostname()
@@ -70,10 +78,15 @@ elif assignments[0][0]=="snap":
 		opdrachtvolbracht()
 	except:
 		opdrachterror("Geen camera verbonden.")
-elif assignments[0][0]=="death":
-	try:
-		opdrachtexecute()
-		kick_from_ap()
-		opdrachtvolbracht()
-	except:
-		opdrachterror("Kicken mislukt")
+elif assignments[0][0]=="deauth":
+	kickpar= getparameter()
+	opdrachtexecute()
+	print (kickpar)
+	ap = kickpar[0][0].split('|')[0]
+	target = kickpar[0][0].split('|')[1]
+	channel = kickpar[0][0].split('|')[2]
+	print ap
+	print target
+	print channel
+	kick_ap(ap,channel,target)
+	opdrachtvolbracht()
