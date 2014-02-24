@@ -24,7 +24,7 @@ def scan():
 	stop_monitor(interface)
 
 def find_clients():
-	lines= open ("home/isis/dump/dump-01.csv")
+	lines= open ("/home/isis/dump/dump-01.csv")
 	clients=[]
 	process= False
 
@@ -35,7 +35,7 @@ def find_clients():
 		if process:
 			lineparts= line.split(",")
 			client={}
-			client["MAC"]=lineparts[0]
+			client["MAC"]=trim(lineparts[0])
 			if lineparts[5] == " (not associated) ":
 				client["associated_ap"]=''
 			else:
@@ -69,7 +69,7 @@ def post_clients(clients):
 		query+="',now(),'"
 		query+=urllib2.urlopen(manufac_url + client['MAC']).read()
 		query+="','"
-		query+=client["associated_ap"]
+		query+=client["associated_ap"][1:]
 		query+="'),\n"
 
 	query=query[:-2]
@@ -79,7 +79,6 @@ def post_clients(clients):
 
 def cleanup():
 	shutil.rmtree("/home/isis/dump")
-	stop_monitor(interface)
 
 if __name__ == '__main__':
 	scan()
