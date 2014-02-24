@@ -23,7 +23,9 @@ def crack_network(ESSID):
 		channel=result[0][0]
 		BSSID=result[0][1]
 		crack_wep.automated_crack(ESSID, BSSID, channel)
-		print "gone to script"
+	file= open ("/home/isis/key")
+	key= file
+	print (key)
 
 if __name__ == '__main__':
 	crack_network ("airmon-ng")
