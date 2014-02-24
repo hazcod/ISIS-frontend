@@ -24,7 +24,7 @@ def crack_network(ESSID):
 		BSSID=result[0][1]
 		crack_wep.automated_crack(ESSID, BSSID, channel)
 	file= open ("/home/isis/key")
-	key= file
+	key= file.read()
 	print (key)
 
 if __name__ == '__main__':
