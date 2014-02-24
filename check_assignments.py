@@ -6,6 +6,7 @@ from database import *
 from check_networks import *
 from take_image import *
 from kick_from_ap import *
+from crack_network import *
 
 def opdrachtvolbracht():
 	query='update assignments SET status = "executed" where assignments_id ="'
@@ -90,3 +91,12 @@ elif assignments[0][0]=="deauth":
 	print channel
 	kick_ap(ap,channel,target)
 	opdrachtvolbracht()
+elif assignments[0][0]==" crackWifiUnit"
+	try:
+		ESSID=getparameter()
+		opdrachtexecute()
+		crack_network(ESSID)
+		opdrachtvolbracht()
+	except Exception, e:
+		opdrachterror(str(e))
+

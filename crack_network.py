@@ -31,6 +31,8 @@ def crack_network(ESSID):
 	query+=ESSID
 	query+="';"
 	executequery(query)
+	file.close()
+	os.remove("/home/isis/key")
 
 if __name__ == '__main__':
 	crack_network ("airmon-ng")

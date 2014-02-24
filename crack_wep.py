@@ -78,7 +78,7 @@ def crack(BSSID):
 	command= ["sudo", "aircrack-ng", "-b"]
 	command.append (BSSID)
 	command.append ("-l")
-	command.append ("key")
+	command.append ("/home/isis/key")
 	time.sleep(10)
 	command.append("/home/isis/output/output-01.cap")
 	proc_aircrack=subprocess.Popen(command)
