@@ -39,13 +39,6 @@ def opdrachtexecute():
 	query+= '";'
 	executequery(query)
 
-# def getparameter():
-# 	query='select parameter from assignments where caption="'
-# 	query+=socket.gethostname()
-# 	query+='" and status="new" order by 1 ASC limit 1;'
-# 	kickpar= executequery(query)
-# 	return kickpar
-
 def lastseen():
 	# # Update last seen
 	query='update units set last_seen = now() where caption="'
@@ -68,18 +61,6 @@ if tmp:
 else:
 	print('No commands atm.')
 	quit()
-
-# # Get assignment ID
-# query='select assignments_id from assignments where caption="'
-# query+=socket.gethostname()
-# query+='"and status="new" order by 1 ASC limit 1;'
-# ass_id= executequery(query)
-
-# # Get assignments
-# query='select assignment from assignments where caption="'
-# query+=socket.gethostname()
-# query+='"and status="new" order by 1 ASC limit 1;'
-# assignments= executequery(query)
 
 # Safe check for wipe, executed even when busy
 if command == "wipe":
