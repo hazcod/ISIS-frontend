@@ -1,57 +1,103 @@
 #!/usr/bin/python
+
 import socket
 import subprocess
 import git
+import os.path
+
 from database import *
 from check_networks import *
 from take_image import *
 from kick_from_ap import *
 from crack_network import *
 
+
+# File created when assignment is still running
+file_busy = '/tmp/busy'
+
 def opdrachtvolbracht():
-	query='update assignments SET status = "executed" where assignments_id ="'
-	query+=str(ass_id[0][0])
-	query+='";'
+	os.remove(file_busy)
+	query = 'update assignments SET status = "executed" where assignments_id ="'
+	query+= str(cmd_id)
+	query+= '";'
 	executequery(query)
  
-def opdrachterror(param):
-	query='update assignments SET status = "error", parameter="'
-	query+=param
-	query+='" where assignments_id="'
-	query+=str(ass_id[0][0])
-	query+='";'
+def opdrachterror(errormsg):
+	os.remove(file_busy)
+	query = 'update assignments SET status = "error", parameter="'
+	query+= errormsg
+	query+= '" where assignments_id="'
+	query+= str(cmd_id)
+	query+= '";'
+	print(query)
 	executequery(query)
 
 def opdrachtexecute():
-	query='update assignments SET status = "busy" where assignments_id="'
-	query+=str(ass_id[0][0])
+	open(file_busy, 'a').close()
+	query= 'update assignments SET status = "busy" where assignments_id="'
+	query+= str(cmd_id)
+	query+= '";'
+	executequery(query)
+
+# def getparameter():
+# 	query='select parameter from assignments where caption="'
+# 	query+=socket.gethostname()
+# 	query+='" and status="new" order by 1 ASC limit 1;'
+# 	kickpar= executequery(query)
+# 	return kickpar
+
+def lastseen():
+	# # Update last seen
+	query='update units set last_seen = now() where caption="'
+	query+=socket.gethostname()
 	query+='";'
 	executequery(query)
 
-def getparameter():
-	query='select parameter from assignments where caption="'
-	query+=socket.gethostname()
-	query+='" and status="new" order by 1 ASC limit 1;'
-	kickpar= executequery(query)
-	return kickpar
+# Check into our hotel ..erm..website
+lastseen()
 
-query='update units set last_seen = now() where caption="'
-query+=socket.gethostname()
-query+='";'
+# All your command are belong to us
+query = "select assignment,assignments_id,parameter from assignments where caption='"
+query+= socket.gethostname()
+query+= "' and status='new' order by assignments_id ASC limit 1;"
+tmp = executequery(query)
+if tmp:
+	command    = tmp[0][0]
+	cmd_id     = tmp[0][1]
+	parameter  = tmp[0][2]
+else:
+	print('No commands atm.')
+	quit()
 
-executequery(query)
+# # Get assignment ID
+# query='select assignments_id from assignments where caption="'
+# query+=socket.gethostname()
+# query+='"and status="new" order by 1 ASC limit 1;'
+# ass_id= executequery(query)
 
-query='select assignments_id from assignments where caption="'
-query+=socket.gethostname()
-query+='"and status="new" order by 1 ASC limit 1;'
-ass_id= executequery(query)
+# # Get assignments
+# query='select assignment from assignments where caption="'
+# query+=socket.gethostname()
+# query+='"and status="new" order by 1 ASC limit 1;'
+# assignments= executequery(query)
 
-query='select assignment from assignments where caption="'
-query+=socket.gethostname()
-query+='"and status="new" order by 1 ASC limit 1;'
-assignments= executequery(query)
+# Safe check for wipe, executed even when busy
+if command == "wipe":
+	try:
+		#remove files gracefully
+		print('ZOMG DELETE EVERYTHING')
+	except:
+		#force remove files
+		print('WOW SUCH DELETE FORCE')
 
-if assignments[0][0] == "gitCheckout":
+# Quit when there is an assignment still running
+if os.path.isfile(file_busy):
+	print('Still busy or no command	!')
+	quit()
+
+print('- Assignment check')
+# Check for assignments
+if command == "gitCheckout":
 	try:
 		opdrachtexecute()
 		repo = git.Repo('/home/isis/ISIS-frontend')
@@ -62,8 +108,7 @@ if assignments[0][0] == "gitCheckout":
 		opdrachtvolbracht()
 	except:
 		opdrachterror("Merge conflicts")
-
-elif assignments[0][0]=="scan":
+elif command == "scan":
 	try:
 		opdrachtexecute()
 		scan()
@@ -71,32 +116,28 @@ elif assignments[0][0]=="scan":
 	except subprocess.CalledProcessError:
 		opdrachterror("Geen wifi-stick verbonden.")
 	except Exception, e:
-		opdrachterror(str (e))
-elif assignments[0][0]=="snap":
+		opdrachterror('Scan error: ' + str (e))
+elif command == "snap":
 	try:
 		opdrachtexecute()
 		take_picture()
 		opdrachtvolbracht()
 	except:
 		opdrachterror("Geen camera verbonden.")
-elif assignments[0][0]=="deauth":
-	kickpar= getparameter()
-	opdrachtexecute()
-	print (kickpar)
-	ap = kickpar[0][0].split('|')[0]
-	target = kickpar[0][0].split('|')[1]
-	channel = kickpar[0][0].split('|')[2]
-	print ap
-	print target
-	print channel
-	kick_ap(ap,channel,target)
-	opdrachtvolbracht()
-elif assignments[0][0]=="crackWifiUnit":
+elif command == "deauth":
 	try:
-		ESSID=getparameter()[0][0]
 		opdrachtexecute()
-		crack_network(ESSID)
+		ap = parameter.split('|')[0]
+		target = parameter.split('|')[1]
+		channel = parameter.split('|')[2]
+		kick_ap(ap,channel,target)
 		opdrachtvolbracht()
 	except Exception, e:
-		opdrachterror(str(e))
-
+		opdrachterror('Deauth failed: ' + str(e))	
+elif command == "crackWifiUnit":
+	try:
+		opdrachtexecute()
+		crack_network(parameter)
+		opdrachtvolbracht()
+	except Exception, e:
+		opdrachterror('Crack failed: ' + str(e))
