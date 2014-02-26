@@ -49,7 +49,6 @@ def find_clients():
 			process= True
 	return clients
 
-
 def post_clients(clients):
 	query= 'select location from units where caption="'
 	query+=socket.gethostname()
@@ -67,7 +66,10 @@ def post_clients(clients):
 		query+="','"
 		query+=location
 		query+="',now(),'"
-		query+=urllib2.urlopen(manufac_url + client['MAC']).read()
+		try:
+			query+=urllib2.urlopen(manufac_url + client['MAC']).read()
+		except:
+			query+="manufac website down"
 		query+="','"
 		query+=client["associated_ap"][1:]
 		query+="'),\n"
@@ -76,6 +78,21 @@ def post_clients(clients):
 	query+=";"
 	print query
 	executequery(query)
+
+	query= "insert into probed_networks (MAC, SSID) values\n "
+	for client in clients:
+		query+="('"
+		query+=client["MAC"]
+		query+="','"
+		for network in client["networks"]:
+			query+=network
+			query+="/"
+		query+="'),\n"
+	
+	query=query[:-2]
+	query+=";"
+	executequery(query)
+		
 
 def cleanup():
 	shutil.rmtree("/home/isis/dump")
