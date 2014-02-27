@@ -122,3 +122,5 @@ elif command == "crackWifiUnit":
 		opdrachtvolbracht()
 	except Exception, e:
 		opdrachterror('Crack failed: ' + str(e))
+else:
+	opdrachterror('Unknown command ' + command)
