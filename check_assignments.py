@@ -23,7 +23,10 @@ def opdrachtvolbracht():
 	executequery(query)
  
 def opdrachterror(errormsg):
-	os.remove(file_busy)
+	try:
+		os.remove(file_busy)
+	except:
+		pass
 	query = 'update assignments SET status = "error", parameter="'
 	query+= errormsg
 	query+= '" where assignments_id="'
