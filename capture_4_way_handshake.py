@@ -29,7 +29,15 @@ def check_routine (BSSID, proc_airodump):
 		check_routine(BSSID, proc_airodump)
 	else:
 		print ("gelukt")
-		os.system("scp /home/isis/psk/psk-01.cap isis@193.191.187.44:.")
+		filename="/home/isis/psk/"
+		time=str(time.time())
+		filename+=time
+		filename+=".cap"
+		os.rename("/home/isis/psk/psk-01.cap" filename)
+		command="scp "
+		command+=filename
+		command+=" isis@193.191.187.44:."
+		os.system(command)
 		os.kill(proc_airodump.pid, SIGINT)
 
 def hand_assignment(BSSID, ESSID):
