@@ -36,7 +36,7 @@ def crack_network(ESSID):
 		file.close()
 		os.remove("/home/isis/key")
 
-	elif encryption="WPA2 Version 1 PSK":
+	elif encryption=="WPA2 Version 1 PSK":
 		capture_4_way_handshake.automated(BSSID, channel, ESSID)
 
 
