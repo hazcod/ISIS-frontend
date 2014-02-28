@@ -10,7 +10,7 @@ from check_networks import *
 from take_image import *
 from kick_from_ap import *
 from crack_network import *
-
+from rogue_ap import *
 
 # File created when assignment is still running
 file_busy = '/tmp/busy'
@@ -125,5 +125,13 @@ elif command == "crackWifiUnit":
 		opdrachtvolbracht()
 	except Exception, e:
 		opdrachterror('Crack failed: ' + str(e))
+elif command == "rogue":
+	try:
+		opdrachtexecute()
+		start_rogue_ap()
+		opdrachtvolbracht()
+	except Exception, e:
+		opdrachterror('Could not go rogue ' + str(e))
+		
 else:
 	opdrachterror('Unknown command ' + command)
