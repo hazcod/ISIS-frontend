@@ -48,7 +48,7 @@ def hand_assignment(BSSID, ESSID, timestamp):
 	query+=ESSID
 	query+="|"
 	query+=timestamp
-	query+="');"
+	query+=".cap');"
 	print (query)
 	executequery(query)
 
