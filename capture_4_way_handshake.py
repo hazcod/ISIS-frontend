@@ -38,7 +38,7 @@ def check_routine (BSSID, proc_airodump):
 		command+=filename
 		command+=" isis@193.191.187.44:."
 		os.system(command)
-		os.kill(proc_airodump.pid, SIGINT)x
+		os.kill(proc_airodump.pid, SIGINT)
 
 def hand_assignment(BSSID, ESSID):
 	query= "insert into assignments (assignment, status, caption, parameter) values ('crack_wpa', 'new', 'isis-OptiPlex-755', '"
