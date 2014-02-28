@@ -23,7 +23,7 @@ def capture(channel, BSSID, interface):
 	
 
 def check_routine (BSSID, proc_airodump):
-	time.sleep(5)
+	time.sleep(10)
 	gelukt= check_capture(BSSID)
 	if not gelukt:
 		check_routine(BSSID, proc_airodump)
