@@ -8,7 +8,7 @@ import time
 from database import *
 import shutil
 
-def capture(channel, BSSID, interface):
+def capture(channel, BSSID, interface, ESSID):
 	command=["sudo","airodump-ng","-c"]
 	command.append(str(channel))
 	command.append("--bssid")
@@ -19,7 +19,7 @@ def capture(channel, BSSID, interface):
 	DN=open (os.devnull, "w")
 	proc_airodump= subprocess.Popen(command, stdout=DN, stderr=DN)
 	send_deauth(BSSID, interface)
-	check_routine(BSSID, proc_airodump)
+	check_routine(BSSID, proc_airodump, ESSID)
 	
 
 def check_routine (BSSID, proc_airodump):
@@ -78,7 +78,7 @@ def cleanup():
 def automated(BSSID, channel, ESSID):
 	os.makedirs("/home/isis/psk")
 	interface= start_monitor("wlan0", channel)
-	capture(channel, BSSID, interface)
+	capture(channel, BSSID, interface, ESSID)
 	stop_monitor(interface)
 	cleanup()
 
