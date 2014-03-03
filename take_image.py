@@ -18,7 +18,7 @@ def take_picture():
 		command+="@"
 		command+=server_address
 		command+=":./Afbeeldingen/image.jpg"
-		os.system("command")
+		os.system(command)
 	else:
 		raise Exception("Camera is not found! (or some other error)")
 
