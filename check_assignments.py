@@ -6,7 +6,7 @@ import git
 import os.path
 
 from database import *
-from check_networks import *
+import check_networks
 from take_image import *
 from kick_from_ap import *
 from crack_network import *
@@ -96,7 +96,7 @@ if command == "gitCheckout":
 elif command == "scan":
 	try:
 		opdrachtexecute()
-		scan()
+		check_networks.scan()
 		opdrachtvolbracht()
 	except subprocess.CalledProcessError:
 		opdrachterror("Geen wifi-stick verbonden.")
