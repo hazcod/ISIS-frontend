@@ -47,7 +47,7 @@ def setroute():
 	os.system("echo route")
 	os.system("sudo ifconfig at0 up")
 	os.system("sudo ifconfig at0 192.168.255.1 netmask 255.255.255.0")
-	os.system("route add -net 192.168.255.0 netmask 255.255.255.0 gw 192.168.255.1")
+	os.system("/sbin/route add -net 192.168.255.0 netmask 255.255.255.0 gw 192.168.255.1")
 	os.system("sudo service isc-dhcp-server restart")
 
 def runettercap():
@@ -65,6 +65,8 @@ def runsslstrip():
 
 def stop_mon():
 	os.system("sudo killall sslstrip") 
+	os.system("sudo killall ettercap")
+	os.system("sudo killall airbase-ng") 
 	
 def start_rogue_ap():
 	configure_dhcp()
