@@ -67,10 +67,10 @@ def stop_mon():
 	os.system("sudo reboot")
 
 def read_post_file():
-	os.system("echo lol")
+	os.system("echo lollol")
 
 def remove_file():
-	os.system("sudo rm /home/isis/etterout ") 
+	os.system("echo top kek") 
 	
 def start_rogue_ap():
 	configure_dhcp()
@@ -82,9 +82,9 @@ def start_rogue_ap():
 	configure_firewall()
 
 def stop_rogue_ap():
-	stop_mon()
 	read_post_file()
 	remove_file()
+	stop_mon()
 
 if __name__ == '__main__':
 	start_rogue_ap()
