@@ -49,7 +49,7 @@ def check_routine (BSSID, proc_airodump, ESSID):
 def hand_assignment(BSSID, ESSID, timestamp):
 	command=["ssh"]
 	
-	sshcommand+=server_username
+	sshcommand=server_username
 	sshcommand+="@"
 	sshcommand+=server_address
 	command.append(sshcommand)
