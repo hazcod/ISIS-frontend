@@ -49,10 +49,14 @@ def check_routine (BSSID, proc_airodump, ESSID):
 def hand_assignment(BSSID, ESSID, timestamp):
 	command=["ssh"]
 	
-	sshcommand=server_username
-	sshcommand+="@"
-	sshcommand+=server_address
-	command.append(sshcommand)
+	sshsetup=server_username
+	sshsetup+="@"
+	sshsetup+=server_address
+	command.append(sshsetup)
+
+	sshcommand= "/home/"
+	sshcommand+=server_username
+	sshcommand+="crack_wpa.py"
 
 	command.append(BSSID)
 	command.append(ESSID)
@@ -60,6 +64,7 @@ def hand_assignment(BSSID, ESSID, timestamp):
 	filename=timestamp
 	filename+=".cap"
 	command.append(filename)
+
 	
 	proc_ssh_aircrack=subprocess.Popen(command)
 	proc_ssh_aircrack.wait() 
