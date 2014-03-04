@@ -27,7 +27,7 @@ def check_routine (BSSID, proc_airodump, ESSID):
 	time.sleep(10)
 	gelukt= check_capture(BSSID)
 	if not gelukt:
-		check_routine(BSSID, proc_airodump)
+		check_routine(BSSID, proc_airodump, ESSID)
 	else:
 		print ("gelukt")
 		filename="/home/isis/psk/"
