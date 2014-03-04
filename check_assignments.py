@@ -17,7 +17,10 @@ from find_devices import *
 file_busy = '/tmp/busy'
 
 def opdrachtvolbracht():
-	os.remove(file_busy)
+	try:
+		os.remove(file_busy)
+	except:
+		pass
 	query = 'update assignments SET status = "executed" where assignments_id ="'
 	query+= str(cmd_id)
 	query+= '";'
@@ -80,6 +83,8 @@ elif command == "stoprogue":
 		opdrachtexecute()
 		stop_rogue_ap()
 		opdrachtvolbracht()
+		opdrachtvolbracht()
+		quit()
 	except Exception, e:
 		opdrachterror('Could not stop the rogue ' + str(e))
 

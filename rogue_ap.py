@@ -64,9 +64,13 @@ def runsslstrip():
 	time.sleep(5)
 
 def stop_mon():
-	os.system("sudo killall sslstrip") 
-	os.system("sudo killall ettercap")
-	os.system("sudo killall airbase-ng") 
+	os.system("sudo reboot")
+
+def read_post_file():
+	os.system("echo lol")
+
+def remove_file():
+	os.system("sudo rm /home/isis/etterout ") 
 	
 def start_rogue_ap():
 	configure_dhcp()
