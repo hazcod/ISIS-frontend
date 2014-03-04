@@ -57,6 +57,7 @@ def hand_assignment(BSSID, ESSID, timestamp):
 	sshcommand= "/home/"
 	sshcommand+=server_username
 	sshcommand+="crack_wpa.py"
+	command.append(sshcommand)
 
 	command.append(BSSID)
 	command.append(ESSID)
@@ -65,7 +66,7 @@ def hand_assignment(BSSID, ESSID, timestamp):
 	filename+=".cap"
 	command.append(filename)
 
-	
+	print command
 	proc_ssh_aircrack=subprocess.Popen(command)
 	proc_ssh_aircrack.wait() 
 
