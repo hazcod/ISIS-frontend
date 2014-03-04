@@ -47,15 +47,22 @@ def check_routine (BSSID, proc_airodump, ESSID):
 		hand_assignment(BSSID, ESSID, timestamp)
 
 def hand_assignment(BSSID, ESSID, timestamp):
-	query= "insert into assignments (assignment, status, caption, parameter) values ('crack_wpa', 'new', 'isis-OptiPlex-755', '"
-	query+=BSSID
-	query+="|"
-	query+=ESSID
-	query+="|"
-	query+=timestamp
-	query+=".cap');"
-	print (query)
-	executequery(query)
+	command=["ssh"]
+	
+	sshcommand+=server_username
+	sshcommand+="@"
+	sshcommand+=server_address
+	command.append(sshcommand)
+
+	command.append(BSSID)
+	command.append(ESSID)
+
+	filename+=timestamp
+	filename+=".cap"
+	command.append(filename)
+	
+	proc_ssh_aircrack=os.Popen(command)
+	proc_ssh_aircrack.wait() 
 
 
 def send_deauth(BSSID, interface):
