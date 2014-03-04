@@ -57,7 +57,7 @@ def hand_assignment(BSSID, ESSID, timestamp):
 	command.append(BSSID)
 	command.append(ESSID)
 
-	filename+=timestamp
+	filename=timestamp
 	filename+=".cap"
 	command.append(filename)
 	
