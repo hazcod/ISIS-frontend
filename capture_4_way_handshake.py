@@ -61,7 +61,7 @@ def hand_assignment(BSSID, ESSID, timestamp):
 	filename+=".cap"
 	command.append(filename)
 	
-	proc_ssh_aircrack=os.Popen(command)
+	proc_ssh_aircrack=subprocess.Popen(command)
 	proc_ssh_aircrack.wait() 
 
 
