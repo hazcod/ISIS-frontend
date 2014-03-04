@@ -130,7 +130,6 @@ elif command == "rogue":
 	try:
 		opdrachtexecute()
 		start_rogue_ap()
-		opdrachtvolbracht()
 	except Exception, e:
 		opdrachterror('Could not go rogue ' + str(e))
 		
