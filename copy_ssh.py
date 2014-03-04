@@ -4,6 +4,7 @@ from server_settings import *
 
 import os
 
+print ("ssh sleutels zonder paswoord zijn vereist voor goede werking. Duw op enter als het paswoord wordt gevraagd.")
 os.system("ssh-keygen")
 os.system("sudo ssh-keygen")
 
