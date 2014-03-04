@@ -56,7 +56,7 @@ def hand_assignment(BSSID, ESSID, timestamp):
 
 	sshcommand= "/home/"
 	sshcommand+=server_username
-	sshcommand+="crack_wpa.py"
+	sshcommand+="/crack_wpa.py"
 	command.append(sshcommand)
 
 	command.append(BSSID)
