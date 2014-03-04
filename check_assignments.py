@@ -17,7 +17,10 @@ from find_devices import *
 file_busy = '/tmp/busy'
 
 def opdrachtvolbracht():
-	os.remove(file_busy)
+	try:
+		os.remove(file_busy)
+	except:
+		pass
 	query = 'update assignments SET status = "executed" where assignments_id ="'
 	query+= str(cmd_id)
 	query+= '";'
@@ -74,6 +77,16 @@ if command == "wipe":
 	except:
 		#force remove files
 		print('WOW SUCH DELETE FORCE')
+		
+elif command == "stoprogue":
+	try:
+		opdrachtexecute()
+		stop_rogue_ap()
+		opdrachtvolbracht()
+		opdrachtvolbracht()
+		quit()
+	except Exception, e:
+		opdrachterror('Could not stop the rogue ' + str(e))
 
 # Quit when there is an assignment still running
 if os.path.isfile(file_busy):
@@ -133,13 +146,6 @@ elif command == "rogue":
 	except Exception, e:
 		opdrachterror('Could not go rogue ' + str(e))
 		
-elif command == "stoprogue":
-	try:
-		opdrachtexecute()
-		stop_rogue_ap()
-		opdrachtvolbracht()
-	except Exception, e:
-		opdrachterror('Could not stop the rogue ' + str(e))
 elif command == "finddevices":
 	try:
 		opdrachtexecute()
