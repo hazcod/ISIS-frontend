@@ -4,9 +4,10 @@ import socket
 import subprocess
 import git
 import os.path
+import check_networks
 
 from database import *
-import check_networks
+from wifi import *
 from take_image import *
 from kick_from_ap import *
 from crack_network import *
@@ -153,5 +154,19 @@ elif command == "finddevices":
 		opdrachtvolbracht()
 	except Exception, e:
 		opdrachterror('Could not find devices ' + str(e))
+elif command == "nmap":
+        try:
+                opdrachtexecute()
+		find_devices()
+                if "open" in parameter.split('|')[1]:
+                        connectWifiWEP(parameter.split('|')[0])
+                elif "wpa" in parameter.split('|')[1]:
+                        connectWifiWPA(parameter.split('|')[0],parameter.split('|')[2])
+                else:
+                        connectWifiWEP(parameter.split('|')[0],parameter.split('|')[2])
+		map()
+		os.system('sudo cat "nameserver 8.8.8.8" > /etc/resolv.conf')
+	except Exception, e:
+		opdrachterror('NMAP PROBLEEM: ' + str(e))
 else:
 	opdrachterror('Unknown command ' + command)
