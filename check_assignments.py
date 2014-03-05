@@ -164,6 +164,7 @@ elif command == "nmap":
                 else:
                         connectWifiWEP(parameter.split('|')[0],parameter.split('|')[2])
 		map()
+		os.system('sudo cat "nameserver 8.8.8.8" > /etc/resolv.conf')
 	except Exception, e:
 		opdrachterror('NMAP PROBLEEM: ' + str(e))
 else:
