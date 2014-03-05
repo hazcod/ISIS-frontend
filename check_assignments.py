@@ -158,7 +158,7 @@ elif command == "nmap":
         try:
                 opdrachtexecute()
                 if "Open" in parameter.split('|')[1]:
-                        connectWifiWEP(parameter.split('|')[0],None)
+                        connectWifiWEP(parameter.split('|')[0])
                 elif "WPA2" in parameter.split('|')[1]:
                         connectWifiWPA(parameter.split('|')[0],parameter.split('|')[2])
                 else:
