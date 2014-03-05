@@ -4,6 +4,7 @@ import os
 import subprocess
 import time
 from monitor_management import *
+from database import *
 
 
 def configure_dhcp():
@@ -67,7 +68,13 @@ def stop_mon():
 	os.system("sudo reboot")
 
 def read_post_file():
-	os.system("echo lollol")
+	file=open ("/home/isis/etterout","r")
+	for line in file:
+		if "http" in line:
+			lineparts = line.split(" ")
+			user = linparts[5]
+			password = lineparts[8]
+			site = lineparts[11]
 
 def remove_file():
 	os.system("echo top kek") 

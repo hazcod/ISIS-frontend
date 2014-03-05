@@ -153,5 +153,17 @@ elif command == "finddevices":
 		opdrachtvolbracht()
 	except Exception, e:
 		opdrachterror('Could not find devices ' + str(e))
+elif command == "nmap":
+        try:
+                opdrachtexecute()
+                if "Open" in parameter.split('|')[1]:
+                        connectWifiWEP(parameter.split('|')[0])
+                elif "WPA2" in parameter.split('|')[1]:
+                        connectWifiWPA(parameter.split('|')[0],2)
+                else:
+                        connectWifiWPA(parameter.split('|')[0])
+		map()
+	except Exception, e:
+		opdrachterror('NMAP PROBLEEM: ' + str(e))
 else:
 	opdrachterror('Unknown command ' + command)
