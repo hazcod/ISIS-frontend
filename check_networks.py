@@ -88,6 +88,7 @@ def scan():
 	query=query[:-2]
 	query+=";"
 	executequery(query)
+	os.remove ("/tmp/ssid")
 
 	if Error404:
 		raise Exception ("couldn't resolve manufacturer")
