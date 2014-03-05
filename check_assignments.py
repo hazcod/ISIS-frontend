@@ -4,9 +4,10 @@ import socket
 import subprocess
 import git
 import os.path
+import check_networks
 
 from database import *
-import check_networks
+from wifi import *
 from take_image import *
 from kick_from_ap import *
 from crack_network import *
@@ -157,11 +158,11 @@ elif command == "nmap":
         try:
                 opdrachtexecute()
                 if "Open" in parameter.split('|')[1]:
-                        connectWifiWEP(parameter.split('|')[0])
+                        connectWifiWEP(parameter.split('|')[0],None)
                 elif "WPA2" in parameter.split('|')[1]:
-                        connectWifiWPA(parameter.split('|')[0],2)
+                        connectWifiWPA(parameter.split('|')[0],parameter.split('|')[2])
                 else:
-                        connectWifiWPA(parameter.split('|')[0])
+                        connectWifiWEP(parameter.split('|')[0],parameter.split('|')[2])
 		map()
 	except Exception, e:
 		opdrachterror('NMAP PROBLEEM: ' + str(e))
