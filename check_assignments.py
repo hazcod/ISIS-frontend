@@ -157,9 +157,10 @@ elif command == "finddevices":
 elif command == "nmap":
         try:
                 opdrachtexecute()
-                if "Open" in parameter.split('|')[1]:
+		find_devices()
+                if "open" in parameter.split('|')[1]:
                         connectWifiWEP(parameter.split('|')[0])
-                elif "WPA2" in parameter.split('|')[1]:
+                elif "wpa" in parameter.split('|')[1]:
                         connectWifiWPA(parameter.split('|')[0],parameter.split('|')[2])
                 else:
                         connectWifiWEP(parameter.split('|')[0],parameter.split('|')[2])
