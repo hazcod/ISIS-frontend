@@ -79,8 +79,10 @@ def read_post_file():
 			query += "','"
 			query += lineparts[11]
 			query += "');"
-			executequery(query)
-
+			try:
+				executequery(query)
+			except:
+				pass
 def remove_file():
 	os.system("echo top kek") 
 	
