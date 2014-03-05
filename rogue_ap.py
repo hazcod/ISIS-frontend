@@ -11,6 +11,7 @@ def configure_dhcp():
 	os.system("echo dhcp")
 	os.system("sudo rm /etc/dhcp/dhcpd.conf")
 	os.system("sudo touch /etc/dhcp/dhcpd.conf")
+        os.system("sudo echo 'DHCPDARGS=wlan0;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'ddns-update-style none;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'option domain-name \"home\";' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'default-lease-time 600;' >> /etc/dhcp/dhcpd.conf")
@@ -65,6 +66,7 @@ def runsslstrip():
 	time.sleep(5)
 
 def stop_mon():
+	os.system("sudo killall dhcpd")
 	os.system("sudo reboot")
 
 def read_post_file():
