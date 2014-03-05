@@ -69,7 +69,7 @@ def stop_mon():
 
 def read_post_file():
 	file=open ("/home/isis/etterout","r")
-	for line in file
+	for line in file:
 		if "http" in line:
 			lineparts = line.split(" ")
 			user = linparts[5]
