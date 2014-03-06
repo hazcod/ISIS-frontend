@@ -56,8 +56,8 @@ def cleanupInterfaces():
 		if d == 0:
 			if (wifi_c) in line:
 				d = 1
-		else:
-			f.write(line)
+			else:
+				f.write(line)
 	f.close()
 	f.close()
 	
