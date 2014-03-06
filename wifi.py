@@ -20,18 +20,7 @@ wifi_c = "# WIFI"
 
 def connectWifiWEP( ssid, passwd = False ):
 	# Delete previous WIFI lines
-	f = open(file_interf, "r")
-	lines = f.readlines()
-	f.close()
-	f = open(file_interf, "w")
-	d = 0
-	for line in lines:
-		if d == 0:
-			if (wifi_c) in line:
-				d = 1
-			else:
-				f.write(line)
-	f.close()
+	cleanupInterfaces()
 	# Add new WIFI lines
 	with open(file_interf, "a") as myfile:
 		myfile.write(wifi_c + "\n auto wlan0\n")
@@ -47,6 +36,18 @@ def connectWifiWPA( ssid, passw ):
 	os.system("sudo killall dhclient")
 	os.system("sudo ifdown wlan0")
 	# Delete previous WIFI lines
+	cleanupInterfaces()
+
+	output = subprocess.check_output(['wpa_passphrase',ssid,passw])
+	f = open(file_wpa, "w")
+	#print(output)
+	f.write(str(output))
+	f.close()
+	subprocess.Popen(["wpa_supplicant", "-i", "wlan0", "-c", file_wpa])
+	subprocess.Popen(["dhclient","-r"])
+	subprocess.Popen(["dhclient","wlan0"])
+
+def cleanupInterfaces():
 	f = open(file_interf, "r")
 	lines = f.readlines()
 	f.close()
@@ -62,17 +63,7 @@ def connectWifiWPA( ssid, passw ):
 			else:
 				f.write(line)
 
-	f.close()
-
-	output = subprocess.check_output(['wpa_passphrase',ssid,passw])
-	f = open(file_wpa, "w")
-	#print(output)
-	f.write(str(output))
-	f.close()
-	subprocess.Popen(["wpa_supplicant", "-i", "wlan0", "-c", file_wpa])
-	subprocess.Popen(["dhclient","-r"])
-	subprocess.Popen(["dhclient","wlan0"])
-
+	f.close()	
 
 def map(network = False):
 	#ip_eth = ni.ifaddresses('eth0')[2][0]['addr']
