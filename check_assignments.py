@@ -172,6 +172,7 @@ elif command == "nmap":
 			map()
 		finally:
 			cleanupInterfaces()
+			cleanupInterfaces_bckp() #just to be sure
 			os.system('sudo cat "nameserver 8.8.8.8" > /etc/resolv.conf')
 	except Exception, e:
 		opdrachterror('NMAP PROBLEEM: ' + str(e))
