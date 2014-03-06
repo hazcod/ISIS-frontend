@@ -61,7 +61,7 @@ def cleanupInterfaces():
 	lines = f.readlines()
 	f.close()
 	
-def cleanupInterfaces_bckp()
+def cleanupInterfaces_bckp():
 	f = open(file_interf, "w")
 	d = 0
 	for line in lines:
