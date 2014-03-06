@@ -174,6 +174,7 @@ elif command == "nmap":
 			cleanupInterfaces()
 			cleanupInterfaces_bckp() #just to be sure
 			os.system('sudo echo "nameserver 8.8.8.8" > /etc/resolv.conf')
+			os.system("sudo rm -rf /home/isis/dump")
 	except Exception, e:
 		opdrachterror('NMAP PROBLEEM: ' + str(e))
 else:
