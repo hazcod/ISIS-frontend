@@ -50,6 +50,7 @@ def connectWifiWPA( ssid, passw ):
 def cleanupInterfaces():
 	f = open(file_interf, "r")
 	lines = f.readlines()
+	f.close()
 	f = open(file_interf, "w")
 	d = 0
 	for line in lines:
@@ -58,7 +59,6 @@ def cleanupInterfaces():
 				d = 1
 			else:
 				f.write(line)
-	f.close()
 	f.close()
 	
 def cleanupInterfaces_bckp():
