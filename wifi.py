@@ -36,7 +36,21 @@ def connectWifiWPA( ssid, passw ):
 	os.system("sudo killall dhclient")
 	os.system("sudo ifdown wlan0")
 	# Delete previous WIFI lines
-	cleanupInterfaces()
+	f = open(file_interf, "r")
+ 	lines = f.readlines()
+ 	f.close()
+ 	f = open(file_interf, "w")
+ 	d = 0
+ 	for line in lines:
+ 		if d == 1:
+ 			if "}" in line:
+ 				d = 0
+ 		else:
+ 			if "ssid=" + ssid in line:
+ 				d = 1
+ 			else:
+ 				f.write(line)
+ 	f.close()
 
 	output = subprocess.check_output(['wpa_passphrase',ssid,passw])
 	f = open(file_wpa, "w")
