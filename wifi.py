@@ -48,9 +48,20 @@ def connectWifiWPA( ssid, passw ):
 	subprocess.Popen(["dhclient","wlan0"])
 
 def cleanupInterfaces():
+	
+	d = 0
+	for line in lines:
+		if d == 0:
+			if (wifi_c) in line:
+				d = 1
+		else:
+			f.write(line)
+	f.close()
 	f = open(file_interf, "r")
 	lines = f.readlines()
 	f.close()
+	
+def cleanupInterfaces_bckp()
 	f = open(file_interf, "w")
 	d = 0
 	for line in lines:
