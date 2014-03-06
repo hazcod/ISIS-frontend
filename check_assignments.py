@@ -5,6 +5,7 @@ import subprocess
 import git
 import os.path
 import check_networks
+import shutil
 
 from database import *
 from wifi import *
@@ -149,9 +150,12 @@ elif command == "rogue":
 		
 elif command == "finddevices":
 	try:
-		opdrachtexecute()
-		find_devices()
-		opdrachtvolbracht()
+		try:
+			opdrachtexecute()
+			find_devices()
+			opdrachtvolbracht()
+		finally:
+			shutil.rmtree("/home/isis/dump")
 	except Exception, e:
 		opdrachterror('Could not find devices ' + str(e))
 elif command == "nmap":
