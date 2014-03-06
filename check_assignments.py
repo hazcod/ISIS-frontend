@@ -156,16 +156,18 @@ elif command == "finddevices":
 		opdrachterror('Could not find devices ' + str(e))
 elif command == "nmap":
         try:
-                opdrachtexecute()
-		find_devices()
-                if "open" in parameter.split('|')[1]:
-                        connectWifiWEP(parameter.split('|')[0])
-                elif "wpa" in parameter.split('|')[1]:
-                        connectWifiWPA(parameter.split('|')[0],parameter.split('|')[2])
-                else:
-                        connectWifiWEP(parameter.split('|')[0],parameter.split('|')[2])
-		map()
-		os.system('sudo cat "nameserver 8.8.8.8" > /etc/resolv.conf')
+                try:
+	                opdrachtexecute()
+			find_devices()
+	                if "open" in parameter.split('|')[1]:
+	                        connectWifiWEP(parameter.split('|')[0])
+	                elif "wpa" in parameter.split('|')[1]:
+	                        connectWifiWPA(parameter.split('|')[0],parameter.split('|')[2])
+	                else:
+	                        connectWifiWEP(parameter.split('|')[0],parameter.split('|')[2])
+			map()
+		finally:
+			os.system('sudo cat "nameserver 8.8.8.8" > /etc/resolv.conf')
 	except Exception, e:
 		opdrachterror('NMAP PROBLEEM: ' + str(e))
 else:
