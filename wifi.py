@@ -74,6 +74,7 @@ def cleanupInterfaces():
 			else:
 				f.write(line)
 	f.close()
+	os.system("sudo service networking restart")
 	
 def cleanupInterfaces_bckp():
 	f = open(file_interf, "r")
