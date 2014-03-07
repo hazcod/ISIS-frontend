@@ -165,6 +165,7 @@ elif command == "nmap":
 			temp = subprocess.check_output(['ifconfig','-a'])
 			if ('wlan0' not in temp):
 				raise Exception("Wifi stick not found")
+				quit()
 			find_devices()
 	                if "open" in parameter.split('|')[1]:
 	                        connectWifiWEP(parameter.split('|')[0])
