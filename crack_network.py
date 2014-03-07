@@ -39,6 +39,9 @@ def crack_network(ESSID):
 	elif encryption=="WPA2 Version 1 PSK":
 		capture_4_way_handshake.automated(BSSID, channel, ESSID)
 
+	else:
+		raise Exception("Cracking not supported")
+
 
 if __name__ == '__main__':
 	crack_network ("airmon-ng")
