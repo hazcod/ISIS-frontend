@@ -5,6 +5,7 @@ import subprocess
 import git
 import os.path
 import check_networks
+import shutil
 
 from database import *
 from wifi import *
@@ -149,22 +150,35 @@ elif command == "rogue":
 		
 elif command == "finddevices":
 	try:
-		opdrachtexecute()
-		find_devices()
-		opdrachtvolbracht()
+		try:
+			opdrachtexecute()
+			find_devices()
+			opdrachtvolbracht()
+		finally:
+			shutil.rmtree("/home/isis/dump")
 	except Exception, e:
 		opdrachterror('Could not find devices ' + str(e))
 elif command == "nmap":
         try:
-                opdrachtexecute()
-                if "Open" in parameter.split('|')[1]:
-                        connectWifiWEP(parameter.split('|')[0],None)
-                elif "WPA2" in parameter.split('|')[1]:
-                        connectWifiWPA(parameter.split('|')[0],parameter.split('|')[2])
-                else:
-                        connectWifiWEP(parameter.split('|')[0],parameter.split('|')[2])
-		map()
-		os.system('sudo cat "nameserver 8.8.8.8" > /etc/resolv.conf')
+                try:
+	                opdrachtexecute()
+			temp = subprocess.check_output(['ifconfig','-a'])
+			if ('wlan0' not in temp):
+				raise Exception("Wifi stick not found")
+				quit()
+			find_devices()
+	                if "open" in parameter.split('|')[1]:
+	                        connectWifiWEP(parameter.split('|')[0])
+	                elif "wpa" in parameter.split('|')[1]:
+	                        connectWifiWPA(parameter.split('|')[0],parameter.split('|')[2])
+	                else:
+	                        connectWifiWEP(parameter.split('|')[0],parameter.split('|')[2])
+			map()
+		finally:
+			cleanupInterfaces()
+			#cleanupInterfaces_bckp() #just to be sure
+			os.system('sudo echo "nameserver 8.8.8.8" > /etc/resolv.conf')
+			os.system("sudo rm -rf /home/isis/dump")
 	except Exception, e:
 		opdrachterror('NMAP PROBLEEM: ' + str(e))
 else:
